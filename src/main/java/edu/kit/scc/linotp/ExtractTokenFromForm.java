@@ -16,11 +16,13 @@
 package edu.kit.scc.linotp;
 
 import javax.annotation.Nonnull;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import net.shibboleth.idp.authn.AbstractExtractionAction;
 import net.shibboleth.idp.authn.AuthnEventIds;
 import net.shibboleth.idp.authn.context.AuthenticationContext;
+// support.annotation doesn't exist
+// support.component doesn't exist
 import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
 import net.shibboleth.utilities.java.support.component.ComponentSupport;
 import net.shibboleth.utilities.java.support.primitive.StringSupport;

@@ -28,8 +28,8 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.net.ssl.SSLContext;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpStatus;
+// import org.apache.http.HttpEntity;
+// import org.apache.http.HttpStatus;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CookieStore;
@@ -39,14 +39,25 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.SSLContextBuilder;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+// import org.apache.http.conn.ssl.SSLContextBuilder;
+import org.apache.hc.core5.ssl.SSLContextBuilder;
+// import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.hc.core5.ssl.TrustStrategy;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpStatus;
+
+import org.apache.hc.client5.http.auth.AuthCache; // replacement of http.client.CredentialsProvider
+
+import java.net.http.HttpClient; // replacing CloseableHTTPClient
+
+// import java.net.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +68,7 @@ public class LinotpConnection {
 	protected LinotpTokenInfoDecoder tokenDecoder;
 	protected LinotpUserDecoder userDecoder;
 	
-	protected CloseableHttpClient httpClient;
+	protected HttpClient httpClient;
 	protected HttpClientContext httpContext;
 	protected String host;
 	
@@ -368,11 +379,11 @@ public class LinotpConnection {
 		return context;    	
     }
     
-	private CloseableHttpClient getHttpClient(Boolean checkCert) throws LinotpSessionException {
-		CloseableHttpClient httpclient;
+	private HttpClient getHttpClient(Boolean checkCert) throws LinotpSessionException {
+		HttpClient httpclient;
 		
 		if (checkCert) {
-			httpclient = HttpClients.createDefault();
+			httpclient = HttpClient.newHttpClient();
 		}
 		else {
 			try {
@@ -381,6 +392,9 @@ public class LinotpConnection {
 				
 				SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
 						sslContext, SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+
+				httpclient = HttpClient.newBuilder().sslContext(sslContext).build();
+
 				httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
 			} catch (KeyManagementException e) {
 				throw new LinotpSessionException(e);

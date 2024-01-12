@@ -13,19 +13,19 @@
   License for the specific language governing permissions and limitations under
   the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="https://maven.apache.org/POM/4.0.0" xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.kit.scc</groupId>
-	<artifactId>shib-2fa</artifactId>
-	<version>4.0.0-SNAPSHOT</version>
+	<artifactId>shlsib-2fa</artifactId>
+	<version>5.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>LinOTP authentication module for Shibboleth</name>
 	<url>https://github.com/cyber-simon/idp-auth-linotp/</url>
 	<parent>
 		<groupId>net.shibboleth.idp</groupId>
 		<artifactId>idp-parent</artifactId>
-		<version>4.0.0</version>
+		<version>5.0.0</version>
 	</parent>
 
 
@@ -34,9 +34,16 @@
   </properties>
 
 	<dependencies>
-		<dependency>
+		<!-- <dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+			<version>4.0.1</version>
+		</dependency> -->
+		<dependency>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<version>6.0.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -61,16 +68,19 @@
 			<id>central</id>
 			<name>Maven Plugin Repository</name>
 			<url>https://repo1.maven.org/maven2/</url>
+			<!-- <url>https://build.shibboleth.net/maven/releases</url> -->
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
 			<releases>
+				<checksumPolicy>fail</checksumPolicy>
 				<enabled>true</enabled>
 			</releases>
 		</repository>
 		<repository>
-			<id>shib-release</id>
-			<url>https://build.shibboleth.net/nexus/content/groups/public</url>
+			<id>shibboleth-releases</id>
+			<url>https://build.shibboleth.net/maven/releases</url>
+			<!-- <url>https://build.shibboleth.net/nexus/content/groups/public</url> -->
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
